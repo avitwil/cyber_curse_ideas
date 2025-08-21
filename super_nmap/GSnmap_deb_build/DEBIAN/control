@@ -1,0 +1,8 @@
+Package: GSnmap
+Version: 1.0
+Section: base
+Priority: optional
+Architecture: all
+Maintainer: Avi Twil <avitwil@gmail.com>
+Description: Auto generated DEB package
+Depends: python3-customtkinter, python3-nmap, python3-queue, python3-threading, python3-tkinter

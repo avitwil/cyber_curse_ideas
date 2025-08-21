@@ -1,0 +1,198 @@
+.TH SNMAP 1 "2025-08-21" "Version 1.0" "Super Nmap Manual"
+.SH NAME
+Snmap \- Advanced Python Nmap wrapper with enhanced output and JSON export
+
+.SH SYNOPSIS
+.B Snmap
+[\-f <file>] [\-t <ip>] [\-ts <subnet>] [\-flags <NMAP_FLAGS>] [\-\-json <file>] [\-h]
+
+.SH DESCRIPTION
+Snmap is a Python3-based wrapper around Nmap designed to simplify network scanning. 
+It allows scanning single IP addresses, multiple IPs from a file, or entire subnets. 
+It enhances Nmap output with colored terminal formatting, OS detection, port state, 
+service details, script results, and the option to export results to JSON.
+
+This tool is intended for security students, pentesters, and network administrators
+who need fast, readable scan results with minimal manual parsing.
+
+.SH TARGET SELECTION
+.TP
+\fB-f <file>\fR
+Read a list of IP addresses from a file. Each IP should be on a separate line. 
+Empty lines are ignored. File must exist, otherwise Snmap exits with an error.
+
+.TP
+\fB-t <ip>\fR
+Scan a single target IP address (e.g., 192.168.1.10).
+
+.TP
+\fB-ts <subnet>\fR
+Scan a subnet in CIDR format (e.g., 192.168.1.0/24). Useful for scanning entire networks.
+
+.SH NMAP FLAGS
+.TP
+\fB-flags <NMAP_FLAGS>\fR
+Custom Nmap flags to use. Accepts multiple arguments, e.g., 
+\(-sS -sV -O --script vuln\). If no flags are specified, a default TCP SYN scan (-sS) is used.
+
+.SH OUTPUT OPTIONS
+.TP
+\fB--json <file>\fR
+Export the scan results to a JSON file instead of printing to the console. 
+The JSON includes structured information for each host: OS guesses, ports, and scripts.
+
+.TP
+\fB-h, --help\fR
+Show a detailed help menu with usage instructions, then exit.
+
+.SH NMAP SCAN TYPES
+.TP
+\fB-sS\fR
+TCP SYN scan (default stealth scan). Only sends SYN packets; less likely to be logged.
+
+.TP
+\fB-sT\fR
+TCP connect scan. Performs full TCP handshake; detectable by the target.
+
+.TP
+\fB-sU\fR
+UDP scan. Scans for open UDP ports.
+
+.TP
+\fB-sN, -sF, -sX\fR
+TCP Null, FIN, Xmas scans. Evasion scans that send unusual flags.
+
+.TP
+\fB-sA\fR
+TCP ACK scan. Determines firewall rules and filtered ports.
+
+.TP
+\fB-sW\fR
+TCP Window scan. Uses TCP window size to detect open/closed ports.
+
+.TP
+\fB-sM\fR
+TCP Maimon scan. Advanced stealth scan using FIN/ACK packets.
+
+.SH SERVICE AND OS DETECTION
+.TP
+\fB-sV\fR
+Detect service version information for open ports.
+
+.TP
+\fB-O\fR
+OS detection. Attempts to identify operating system based on TCP/IP stack behavior.
+
+.TP
+\fB--osscan-guess\fR
+Aggressively guess OS even if initial confidence is low.
+
+.TP
+\fB-A\fR
+Aggressive scan. Enables OS detection, version detection, script scanning, and traceroute.
+
+.SH PORT SPECIFICATION
+.TP
+\fB-p <ports>\fR
+Scan specific ports or ranges (e.g., 22,80,443 or 1-1024).
+
+.TP
+\fB--top-ports <num>\fR
+Scan only the top <num> most common ports.
+
+.TP
+\fB--exclude-ports <num>\fR
+Exclude certain ports from scanning.
+
+.TP
+\fB-F\fR
+Fast scan. Scans fewer ports for quicker results.
+
+.SH HOST DISCOVERY AND TIMING
+.TP
+\fB-Pn\fR
+Treat all hosts as online. Skips host discovery; useful for stealth scanning.
+
+.TP
+\fB-n\fR
+Do not resolve DNS names.
+
+.TP
+\fB-R\fR
+Always resolve DNS names, even if the target is already an IP.
+
+.TP
+\fB-T0..T5\fR
+Timing templates (0 slowest, 5 fastest). Higher speeds may trigger IDS/IPS alerts.
+
+.SH NMAP SCRIPTS
+.TP
+\fB--script <scripts>\fR
+Run Nmap scripts to automate tasks like vulnerability scanning, auth checks, or safe checks.
+Examples: vuln, default, safe, auth.
+
+.SH OTHER USEFUL FLAGS
+.TP
+\fB--open\fR
+Show only open ports in the results.
+
+.TP
+\fB-v\fR
+Increase verbosity. Shows more scanning progress.
+
+.TP
+\fB-d\fR
+Enable debug output for troubleshooting.
+
+.TP
+\fB--reason\fR
+Display the reason a port is in a particular state (e.g., filtered, closed).
+
+.TP
+\fB--version\fR
+Show Nmap version.
+
+.SH EXAMPLES
+.TP
+\fBSnmap -f ips.txt\fR
+Scan multiple targets listed in "ips.txt".
+
+.TP
+\fBSnmap -t 192.168.1.10 -flags -sV\fR
+Scan a single host with service version detection.
+
+.TP
+\fBSnmap -ts 192.168.1.0/24 -flags -A --open\fR
+Aggressive scan of a subnet, showing only open ports.
+
+.TP
+\fBSnmap -t 10.0.0.5 --json results.json\fR
+Scan a single IP and save results to a JSON file.
+
+.SH OUTPUT FORMAT
+Results are displayed per host:
+.IP
+1. Host IP
+.IP
+2. OS guesses with accuracy
+.IP
+3. Port table: protocol, port, state, service, product, version, reason
+.IP
+4. Scripts run per port with output
+
+.SH ERRORS AND TROUBLESHOOTING
+.TP
+\fBFileNotFoundError\fR
+Raised if the file specified with -f does not exist.
+
+.TP
+\fBNo targets specified\fR
+Occurs if no -f, -t, or -ts argument is provided.
+
+.TP
+\fBScan errors\fR
+Network issues or permissions may prevent scanning. Ensure Nmap is installed and run as root if necessary for some scan types.
+
+.SH AUTHOR
+Avi Twil (c) Ecomschool.co.il  
+Twil Industries
