@@ -1,3 +1,2 @@
 #!/bin/bash
-echo "Installing package..."
-sudo dpkg -i py2deb.deb
+sudo dpkg -i py2debv2.deb
