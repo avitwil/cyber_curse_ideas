@@ -38,6 +38,7 @@ if (isset($_GET['cmd'])) {
     </style>
 </head>
 <body>
+    <h1>Made to you by Avi Twil </h1>
     <div id="term">
         <div id="log"></div>
         <div id="input-line">
